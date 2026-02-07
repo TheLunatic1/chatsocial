@@ -1,12 +1,12 @@
 import React, { createContext, useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
+import { auth } from './firebase'; // add this
+import { signInWithCustomToken } from 'firebase/auth';
 
 export const AuthContext = createContext();
 
-const API_URL = 'http://192.168.0.105:5000/api/auth'; // physical phone
-// Change to 'http://10.0.2.2:5000/api/auth'; // Android emulator
-// Change to 'http://localhost:5000/api/auth' if iOS simulator
+const API_URL = 'http://192.168.0.105:5000/api/auth';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (name, email, password) => {
     try {
       const res = await axios.post(`${API_URL}/register`, { name, email, password });
-      const { token, user } = res.data;
+      const { token, firebaseToken, user } = res.data;
 
       await SecureStore.setItemAsync('userToken', token);
       await SecureStore.setItemAsync('user', JSON.stringify(user));
@@ -46,6 +46,10 @@ export const AuthProvider = ({ children }) => {
       setToken(token);
       setUser(user);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+
+      // Sign in to Firebase with custom token
+      await signInWithCustomToken(auth, firebaseToken);
 
       return { success: true };
     } catch (err) {
@@ -59,7 +63,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const res = await axios.post(`${API_URL}/login`, { email, password });
-      const { token, user } = res.data;
+      const { token, firebaseToken, user } = res.data;
 
       await SecureStore.setItemAsync('userToken', token);
       await SecureStore.setItemAsync('user', JSON.stringify(user));
@@ -67,6 +71,10 @@ export const AuthProvider = ({ children }) => {
       setToken(token);
       setUser(user);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+
+      // Sign in to Firebase with custom token
+      await signInWithCustomToken(auth, firebaseToken);
 
       return { success: true };
     } catch (err) {
@@ -83,6 +91,8 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
     delete axios.defaults.headers.common['Authorization'];
+
+    await auth.signOut(); // logout from Firebase
   };
 
   return (

@@ -1,4 +1,3 @@
-// App.js
 import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -52,7 +51,7 @@ function Routes() {
   const { user, loading } = useContext(AuthContext);
 
   if (loading) {
-    return null; // You can add a <LoadingScreen /> here later
+    return null;
   }
 
   return (
