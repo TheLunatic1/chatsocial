@@ -18,6 +18,8 @@ expo-env.d.ts
 *.key
 *.mobileprovision
 
+
+
 # Metro
 .metro-health-check*
 
@@ -32,6 +34,8 @@ yarn-error.*
 
 # local env files
 .env*.local
+firebase.js
+
 
 # typescript
 *.tsbuildinfo
