@@ -9,7 +9,7 @@ Backend Repo: https://github.com/TheLunatic1/RNT-backend.git
 
 <table>
   <tr>
-    <td><img src="https://github.com/TheLunatic1/RNT/raw/main/preview.jpg" alt="Screenshot 1" width="200"/></td>
+    <td><img src="https://github.com/TheLunatic1/RNT/raw/main/preview.png" alt="Screenshot 1" width="200"/></td>
     <td><img src="https://github.com/TheLunatic1/RNT/raw/main/preview1.jpg" alt="Screenshot 2" width="200"/></td>
     <td><img src="https://github.com/TheLunatic1/RNT/raw/main/preview2.jpg" alt="Screenshot 3" width="200"/></td>
     <td><img src="https://github.com/TheLunatic1/RNT/raw/main/preview3.jpg" alt="Screenshot 4" width="200"/></td>
