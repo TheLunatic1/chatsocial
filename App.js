@@ -6,8 +6,9 @@ import {
 } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider, AuthContext } from './src/context/AuthContext';
+import { ThemeProvider } from './src/context/ThemeContext';
 import ExpenseScreen from './src/screens/ExpenseScreen';
-import AuthScreen from './src/screens/AuthScreen'; // ← ADD THIS LINE
+import AuthScreen from './src/screens/AuthScreen';
 
 function MainApp() {
   const { user, loading } = useContext(AuthContext);
@@ -20,18 +21,16 @@ function MainApp() {
     );
   }
 
-  if (!user) {
-    return <AuthScreen />;
-  }
-
-  return <ExpenseScreen />;
+  return user ? <ExpenseScreen /> : <AuthScreen />;
 }
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <MainApp />
+        <ThemeProvider>
+          <MainApp />
+        </ThemeProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );
