@@ -27,7 +27,6 @@ export default function AddExpenseModal({
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Food');
 
-  // For sub-modal: add new category
   const [showAddCatModal, setShowAddCatModal] = useState(false);
   const [newCatName, setNewCatName] = useState('');
 
@@ -60,7 +59,7 @@ export default function AddExpenseModal({
 
   const handleSubmit = () => {
     if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
-      Alert.alert('Invalid', 'Enter valid amount > 0');
+      Alert.alert('Invalid Amount', 'Please enter a valid amount greater than 0');
       return;
     }
     if (!description.trim()) {
@@ -68,7 +67,7 @@ export default function AddExpenseModal({
       return;
     }
     if (!category) {
-      Alert.alert('Required', 'Select a category');
+      Alert.alert('Required', 'Please select a category');
       return;
     }
 
@@ -88,7 +87,14 @@ export default function AddExpenseModal({
       return;
     }
 
-    console.log('Submitting new category:', newCatName.trim());
+    // Safety check
+    if (typeof onAddCategory !== 'function') {
+      Alert.alert('Error', 'Cannot add category right now. Try again later.');
+      console.warn('onAddCategory is not a function in modal');
+      return;
+    }
+
+    console.log('Adding category from modal:', newCatName.trim());
     onAddCategory(newCatName.trim());
     setNewCatName('');
     setShowAddCatModal(false);
@@ -157,10 +163,7 @@ export default function AddExpenseModal({
 
               <TouchableOpacity
                 style={styles.addCategoryBtn}
-                onPress={() => {
-                  console.log('User tapped + Add New Category');
-                  setShowAddCatModal(true);
-                }}
+                onPress={() => setShowAddCatModal(true)}
               >
                 <Text style={styles.addCategoryText}>+ Add New Category</Text>
               </TouchableOpacity>
@@ -179,7 +182,7 @@ export default function AddExpenseModal({
         </Animated.View>
       </Modal>
 
-      {/* Sub-modal for adding new category */}
+      {/* Sub-modal for new category */}
       <Modal
         visible={showAddCatModal}
         transparent
@@ -289,8 +292,6 @@ const styles = StyleSheet.create({
   },
   saveBtnText: { color: 'white', fontSize: 18, fontWeight: '600' },
   cancelText: { color: '#6c757d', textAlign: 'center', fontSize: 16 },
-
-  // Sub-modal styles
   subModalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.6)',
@@ -330,15 +331,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 8,
   },
-  cancelSubBtn: {
-    backgroundColor: '#6c757d',
-  },
-  addSubBtn: {
-    backgroundColor: '#20c997',
-  },
-  subBtnText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-  },
+  cancelSubBtn: { backgroundColor: '#6c757d' },
+  addSubBtn: { backgroundColor: '#20c997' },
+  subBtnText: { color: 'white', fontSize: 16, fontWeight: '600' },
 });

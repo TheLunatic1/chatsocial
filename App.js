@@ -7,9 +7,10 @@ import {
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider, AuthContext } from './src/context/AuthContext';
 import ExpenseScreen from './src/screens/ExpenseScreen';
+import AuthScreen from './src/screens/AuthScreen'; // ← ADD THIS LINE
 
 function MainApp() {
-  const { user, loading, logout } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
 
   if (loading) {
     return (
@@ -23,7 +24,7 @@ function MainApp() {
     return <AuthScreen />;
   }
 
-  return <ExpenseScreen onLogout={logout} />;
+  return <ExpenseScreen />;
 }
 
 export default function App() {
